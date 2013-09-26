@@ -1,7 +1,5 @@
-nfs_media CHANGELOG
+nfs-chef CHANGELOG
 ===================
-
-This file is used to list changes made in each version of the nfs_media cookbook.
 
 0.1.0
 -----
