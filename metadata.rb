@@ -1,4 +1,4 @@
-name             'nfs_media'
+name             'nfs'
 maintainer       'Texas A&M'
 maintainer_email 'jarosser06@arch.tamu.edu'
 license          'MIT'

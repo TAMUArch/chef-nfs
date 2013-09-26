@@ -10,5 +10,5 @@ platforms:
 suites:
 - name: default
   run_list: 
-  - recipe[nfs_media]
+  - recipe[nfs]
   attributes: {}

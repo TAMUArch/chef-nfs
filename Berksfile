@@ -1,3 +1,3 @@
 group :integration do
-  cookbook "nfs_media", :path => "."
+  cookbook "nfs", :path => "."
 end

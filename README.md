@@ -1,4 +1,4 @@
-nfs_media Cookbook
+Nfs Cookbook
 ==================
 TODO: Enter the cookbook description here.
 
