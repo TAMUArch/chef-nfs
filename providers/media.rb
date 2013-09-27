@@ -11,10 +11,10 @@ action :setup do
   end
 
   if mount_exists
-    if nfs_share_changed? current_share, new_resource.nfs_share 
+    if nfs_share_changed? current_share, new_resource.nfs_share
       mount new_resource.local_directory do
         action [:umount, :disable]
-        device new_resource.nfs_share
+        device current_share
         fstype 'nfs'
         new_resource.updated_by_last_action true
       end
