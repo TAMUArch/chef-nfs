@@ -14,7 +14,7 @@ service 'nfs-kernel-server' do
   action :start
 end
 
-nfs_media '/mnt' do
-  action :create
-  device 'localhost:/tmp/test_nfs'
+nfs_media '/mnt/test' do
+  action :setup
+  device 'localhost:/tmp/nfs'
 end
