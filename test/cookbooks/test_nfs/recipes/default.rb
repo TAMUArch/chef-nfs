@@ -1,12 +1,13 @@
 package 'nfs-kernel-server'
 
-directory '/tmp/test_nfs' do
-  action :create
+%w( /tmp/test_nfs /tmp/test_nfs2 ).each do |dir|
+  directory dir
 end
 
 file '/etc/exports' do
   action :create
-  content('/tmp/test_nfs *(rw,sync,no_root_squash)')
+  content("/tmp/test_nfs *(rw,sync,no_root_squash)\n
+          /tmp/test_nfs2 *(rw,sync,no_root_squash)")
   notifies :restart, 'service[nfs-kernel-server]', :immediately
 end
 
@@ -14,7 +15,12 @@ service 'nfs-kernel-server' do
   action :start
 end
 
-nfs_media '/mnt/test' do
+nfs_media '/localhost:/tmp/test_nfs' do
   action :setup
-  nfs_share 'localhost:/tmp/test_nfs'
+  nfs_share 'mnt/test'
+end
+
+nfs_media '/localhost:/tmp/test_nfs2' do
+  action :setup
+  nfs_share '/mnt/test'
 end

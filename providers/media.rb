@@ -4,7 +4,7 @@ action :setup do
   current_share = ''
 
   node[:filesystem].each do |fs, val|
-    if val[:mount] == new_resource.directory
+    if val[:mount] == new_resource.local_directory
       mount_exists = true
       current_share = fs
     end
@@ -12,7 +12,7 @@ action :setup do
 
   if mount_exists
     unless nfs_share_changed?
-      mount new_resource.directory do
+      mount new_resource.local_directory do
         action :unmount, :disable
         device new_resource.nfs_share
         fstype 'nfs'
@@ -20,13 +20,13 @@ action :setup do
       end
     end
   else
-    directory new_resource.directory do
+    directory new_resource.local_directory do
       action :create
-      not_if { ::Dir.exists? new_resource.directory }
+      not_if { ::Dir.exists? new_resource.local_directory }
     end
   end
 
-  mount new_resource.directory do
+  mount new_resource.local_directory do
     action [:mount, :enable]
     fstype 'nfs'
     device new_resource.nfs_share
@@ -35,13 +35,13 @@ action :setup do
 end
 
 action :destroy do
-  mount new_resource.directory do
+  mount new_resource.local_directory do
     action [:unmount, :disable]
     fstype 'nfs'
     device new_resource.nfs_share
   end
 
-  directory new_resource.directory do
+  directory new_resource.local_directory do
     action :remove
   end
 end
