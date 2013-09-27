@@ -16,5 +16,5 @@ end
 
 nfs_media '/mnt/test' do
   action :setup
-  device 'localhost:/tmp/nfs'
+  nfs_share 'localhost:/tmp/nfs'
 end
