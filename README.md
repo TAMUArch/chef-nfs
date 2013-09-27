@@ -3,45 +3,35 @@ NFS Cookbook
 This cookbook installs the nfs client and provides a resource to create
 and mount an nfs share.
 
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
-
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+Currently only supports Ubuntu 12.04 but should be very easy to port.
 
-e.g.
 #### packages
-- `toaster` - nfs needs toaster to brown your bagel.
+- `nfs-client` - nfs needs toaster to brown your bagel.
 
-Attributes
-----------
-TODO: List you cookbook attributes here.
+nfs_media LWRP
+--------------
+This resource creates a directory and mounts a specified nfs share to it.
+Why use this instead of just regular old mount?  This resource creates the
+directory needed for the mount and will unmount any existing shares from
+that directory.
 
-e.g.
-#### nfs::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['nfs']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+#### actions
+
+- `setup` - sets up a directory to mount to and mounts nfs
+- `destroy` - removes both the nfs mount and the directory
+
+#### attributes
+
+- `nfs_share` - the nfs share to mount
+- `local_directory` - the local directory to mount the nfs share to
+- `options` - this is passed directly to the mount resource
 
 Usage
 -----
 #### nfs::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
-Just include `nfs` in your node's `run_list`:
+The default recipe installs nfs-client
 
 ```json
 {
@@ -54,9 +44,6 @@ Just include `nfs` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write you change
@@ -66,4 +53,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Jim Rosser: jarosser06@gmail.com
