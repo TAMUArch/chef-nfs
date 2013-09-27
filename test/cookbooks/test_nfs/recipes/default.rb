@@ -1,3 +1,5 @@
+include_recipe 'nfs'
+
 package 'nfs-kernel-server'
 
 directory '/tmp/test_nfs' do
@@ -12,4 +14,9 @@ end
 
 service 'nfs-kernel-server' do
   action :start
+end
+
+nfs_media '/mnt' do
+  action :create
+  device 'localhost:/tmp/test_nfs'
 end

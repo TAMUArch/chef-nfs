@@ -11,6 +11,9 @@ class Chef
       def initialize(*args)
         super
         @system = Ohai::System.new
+        @mount_dir = Chef::Resource::Directory.new(
+          @new_resource.mount_point,
+          run_context)
       end
 
       def load_current_resource
@@ -21,16 +24,31 @@ class Chef
       def action_create
         if mount_exists?
           unless nfs_share_changed?
-            self.unmount_old
-            self.mount_fs
+            self.remove_old_share
           end
+        else
+          create_mount_directory
+        end
+        @new_resource.action :enable
+        @new_resource.action :mount
+      end
+
+      def action_remove
+        @new_resource.action :disable
+        @new_resource.action :unmount
+        @mount_dir.run_action :delete
+      end
+
+      def create_mount_directory
+        unless ::Dir.exists? @new_resource.mount_point
+          @mount_dir.run_action :create
         end
       end
 
       def unmount_old
         old_mount = Chef::Resource::Mount(@current_nfs_share, run_context)
-        old_mount.run_action(:unmount)
-        old_mount.run_action(:disable)
+        old_mount.run_action :unmount
+        old_mount.run_action :disable
       end
 
       def mount_exists?
