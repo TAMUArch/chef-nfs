@@ -8,17 +8,17 @@ class Chef
   class Provider
     class NFSMedia < Chef::Provider::Mount::Mount
 
+      def load_current_resource
+        @current_resource ||= Chef::Resource::NFSMedia.new(new_resource.name)
+        @current_resource
+      end
+
       def initialize(*args)
         super
         @system = Ohai::System.new
         @mount_dir = Chef::Resource::Directory.new(
           @new_resource.mount_point,
           run_context)
-      end
-
-      def load_current_resource
-        @current_resource ||= Chef::Resource::NFSMedia.new(new_resource.name)
-        @current_resource
       end
 
       def action_create
