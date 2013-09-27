@@ -1,7 +1,7 @@
 action :setup do
 
   mount_exists = false
-  current_share
+  current_share = ''
 
   node[:filesystem].each do |fs, val|
     if val[:mount] == new_resource.directory
@@ -27,7 +27,7 @@ action :setup do
   end
 
   mount new_resource.directory do
-    action :mount, :enable
+    action [:mount, :enable]
     fstype 'nfs'
     device new_resource.nfs_share
     options new_resource.options
@@ -36,7 +36,9 @@ end
 
 action :destroy do
   mount new_resource.directory do
-    action :unmount, :disable
+    action [:unmount, :disable]
+    fstype 'nfs'
+    device new_resource.nfs_share
   end
 
   directory new_resource.directory do
