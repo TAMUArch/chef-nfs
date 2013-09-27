@@ -1,6 +1,7 @@
-nfs Cookbook
+NFS Cookbook
 ============
-TODO: Enter the cookbook description here.
+This cookbook installs the nfs client and provides a resource to create
+and mount an nfs share.
 
 e.g.
 This cookbook makes your favorite breakfast sandwhich.
