@@ -15,12 +15,16 @@ service 'nfs-kernel-server' do
   action :start
 end
 
-nfs_media '/localhost:/tmp/test_nfs' do
+nfs_media 'localhost:/tmp/test_nfs' do
   action :setup
-  nfs_share 'mnt/test'
+  local_directory '/mnt/test'
 end
 
-nfs_media '/localhost:/tmp/test_nfs2' do
+ohai 'reload' do
+  action :reload
+end
+
+nfs_media 'localhost:/tmp/test_nfs2' do
   action :setup
-  nfs_share '/mnt/test'
+  local_directory '/mnt/test'
 end

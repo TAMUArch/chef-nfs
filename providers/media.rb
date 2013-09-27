@@ -11,9 +11,9 @@ action :setup do
   end
 
   if mount_exists
-    unless nfs_share_changed?
+    if nfs_share_changed? current_share, new_resource.nfs_share 
       mount new_resource.local_directory do
-        action :unmount, :disable
+        action [:umount, :disable]
         device new_resource.nfs_share
         fstype 'nfs'
         new_resource.updated_by_last_action true
@@ -36,7 +36,7 @@ end
 
 action :destroy do
   mount new_resource.local_directory do
-    action [:unmount, :disable]
+    action [:umount, :disable]
     fstype 'nfs'
     device new_resource.nfs_share
   end
