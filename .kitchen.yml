@@ -13,6 +13,6 @@ platforms:
 suites:
 - name: default
   run_list:
-  - recipe[nfs]
   - recipe[test_nfs]
+  - recipe[nfs]
   attributes: {}

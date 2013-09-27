@@ -3,14 +3,14 @@ require 'chef/resource/mount'
 
 class Chef
   class Resource
-    class NFSMedia < Chef::Resource::Mount
+    class NfsMedia < Chef::Resource::Mount
 
       def initialize(name, run_context=nil)
         super
         @resource_name = :nfs_media
-        @provider = Chef::Provider::NFSMedia
+        @provider = Chef::Provider::NfsMedia
         @action = :create
-        @allowd_actions = [:create, :remove]
+        @allowed_actions += [:create, :remove]
       end
     end
   end

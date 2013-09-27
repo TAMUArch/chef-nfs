@@ -6,16 +6,16 @@ require 'ohai'
 
 class Chef
   class Provider
-    class NFSMedia < Chef::Provider::Mount::Mount
+    class NfsMedia < Chef::Provider::Mount::Mount
 
       def load_current_resource
-        @current_resource ||= Chef::Resource::NFSMedia.new(new_resource.name)
+        @current_resource ||= Chef::Resource::NfsMedia.new(new_resource.name)
         @current_resource
       end
 
       def initialize(*args)
         super
-        @system = Ohai::System.new
+        @system = ::Ohai::System.new
         @mount_dir = Chef::Resource::Directory.new(
           @new_resource.mount_point,
           run_context)
@@ -24,7 +24,7 @@ class Chef
       def action_create
         if mount_exists?
           unless nfs_share_changed?
-            self.remove_old_share
+            self.unmount_old
           end
         else
           create_mount_directory
@@ -52,9 +52,10 @@ class Chef
       end
 
       def mount_exists?
+        @system.all_plugins
         ret = false
         @system[:filesystem].each do |fs, val|
-          if val['mount'] = @new_resource.local_directory
+          if val['mount'] = @new_resource.mount_point
             ret = true
             @current_nfs_share = fs
           end
@@ -63,7 +64,7 @@ class Chef
       end
 
       def nfs_share_changed?
-        if @current_resource.nfs_share == @current_nfs_share
+        if @new_resource.device == @current_nfs_share
           false
         else
           true
