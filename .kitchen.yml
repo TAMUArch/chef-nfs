@@ -7,8 +7,12 @@ platforms:
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
     require_chef_omnibus: true
+  run_list:
+  - recipe[apt]
+
 suites:
 - name: default
-  run_list: 
+  run_list:
   - recipe[nfs]
+  - recipe[test_nfs]
   attributes: {}
