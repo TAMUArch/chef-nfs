@@ -18,6 +18,7 @@ end
 nfs_media 'localhost:/tmp/test_nfs' do
   action :setup
   local_directory '/mnt/test'
+  options ['rw']
 end
 
 ohai 'reload' do
